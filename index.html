@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Farm Management System - Manage crops, expenses, income, and more">
+  <title>Digital Agriculture | Farm Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Dynamic Background Layer -->
+  <div id="page-bg" class="page-bg" style="--bg-image: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1920&q=80')"></div>
+  <div class="page-bg-overlay"></div>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ==================== SPLASH SCREEN ==================== -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="splash-status-bar">
+      <span>9:41</span>
+      <div class="status-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+    <div class="splash-content">
+      <div class="digitalization-pill animate-float">
+        <img src="https://images.unsplash.com/photo-1574943329822-80107a6fd0f6?w=80&h=80&fit=crop" alt="">
+        <span>Digitalization</span>
+      </div>
+      <h1 class="splash-title">DIGITAL<br>AGRICULTURE</h1>
+      <p class="splash-subtitle">Digital Farming Solutions in Practice</p>
+    </div>
+    <button id="splash-cta" class="splash-cta" aria-label="Get Started">
+      <span class="splash-cta-ring"></span>
+      <span class="splash-cta-inner"><i class="fas fa-arrow-right"></i></span>
+    </button>
+  </div>
+
+  <!-- ==================== AUTH SECTION ==================== -->
+  <div id="auth-container" class="auth-container hidden">
+    <!-- Login -->
+    <div id="login-view" class="auth-view active">
+      <div class="auth-card glass-card glass-dark">
+        <div class="auth-header">
+          <div class="logo logo-light">
+            <i class="fas fa-seedling"></i>
+            <span>Digital Agriculture</span>
+          </div>
+          <h1>Welcome Back</h1>
+          <p>Sign in to manage your farm</p>
+        </div>
+        <form id="login-form" class="auth-form">
+          <div class="form-group">
+            <label for="login-email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="login-email" placeholder="you@farm.com" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="login-password" placeholder="••••••••" required>
+          </div>
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="remember-me"> Remember me
+            </label>
+            <a href="#" id="show-forgot" class="link">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+          </button>
+        </form>
+        <p class="auth-footer">Don't have an account? <a href="#" id="show-register" class="link">Register</a></p>
+      </div>
+    </div>
+
+    <!-- Register -->
+    <div id="register-view" class="auth-view">
+      <div class="auth-card glass-card">
+        <div class="auth-header">
+          <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>AgriFarm Pro</span>
+          </div>
+          <h1>Create Account</h1>
+          <p>Start managing your farm today</p>
+        </div>
+        <form id="register-form" class="auth-form">
+          <div class="form-group">
+            <label for="register-name"><i class="fas fa-user"></i> Full Name</label>
+            <input type="text" id="register-name" placeholder="John Farmer" required>
+          </div>
+          <div class="form-group">
+            <label for="register-email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="register-email" placeholder="you@farm.com" required>
+          </div>
+          <div class="form-group">
+            <label for="register-phone"><i class="fas fa-phone"></i> Phone</label>
+            <input type="tel" id="register-phone" placeholder="+1 234 567 8900">
+          </div>
+          <div class="form-group">
+            <label for="register-password"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="register-password" placeholder="Min 6 characters" required minlength="6">
+          </div>
+          <div class="form-group">
+            <label for="register-confirm"><i class="fas fa-lock"></i> Confirm Password</label>
+            <input type="password" id="register-confirm" placeholder="Confirm password" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+        </form>
+        <p class="auth-footer">Already have an account? <a href="#" id="show-login" class="link">Sign In</a></p>
+      </div>
+    </div>
+
+    <!-- Forgot Password -->
+    <div id="forgot-view" class="auth-view">
+      <div class="auth-card glass-card">
+        <div class="auth-header">
+          <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>AgriFarm Pro</span>
+          </div>
+          <h1>Reset Password</h1>
+          <p>Enter your email to receive reset instructions</p>
+        </div>
+        <form id="forgot-form" class="auth-form">
+          <div class="form-group">
+            <label for="forgot-email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="forgot-email" placeholder="you@farm.com" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="fas fa-paper-plane"></i> Send Reset Link
+          </button>
+        </form>
+        <p class="auth-footer"><a href="#" id="back-to-login" class="link"><i class="fas fa-arrow-left"></i> Back to Login</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN APP ==================== -->
+  <div id="app-container" class="app-container hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i class="fas fa-seedling"></i>
+          <span>Digital Agriculture</span>
+        </div>
+        <button id="sidebar-close" class="btn-icon sidebar-close" aria-label="Close menu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-section="dashboard">
+          <i class="fas fa-th-large"></i><span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-section="crops">
+          <i class="fas fa-leaf"></i><span>Crops</span>
+        </a>
+        <a href="#" class="nav-item" data-section="expenses">
+          <i class="fas fa-wallet"></i><span>Expenses</span>
+        </a>
+        <a href="#" class="nav-item" data-section="income">
+          <i class="fas fa-coins"></i><span>Income</span>
+        </a>
+        <a href="#" class="nav-item" data-section="profit">
+          <i class="fas fa-chart-line"></i><span>Profit & Loss</span>
+        </a>
+        <a href="#" class="nav-item" data-section="inventory">
+          <i class="fas fa-boxes"></i><span>Inventory</span>
+        </a>
+        <a href="#" class="nav-item" data-section="tasks">
+          <i class="fas fa-tasks"></i><span>Tasks</span>
+        </a>
+        <a href="#" class="nav-item" data-section="intelligence">
+          <i class="fas fa-microscope"></i><span>Intelligence</span>
+        </a>
+        <a href="#" class="nav-item" data-section="livestock">
+          <i class="fas fa-horse"></i><span>Livestock</span>
+        </a>
+        <a href="#" class="nav-item" data-section="weather">
+          <i class="fas fa-cloud-sun"></i><span>Weather</span>
+        </a>
+        <a href="#" class="nav-item" data-section="analytics">
+          <i class="fas fa-chart-pie"></i><span>Analytics</span>
+        </a>
+        <a href="#" class="nav-item" data-section="reports">
+          <i class="fas fa-file-alt"></i><span>Reports</span>
+        </a>
+        <a href="#" class="nav-item" data-section="settings">
+          <i class="fas fa-cog"></i><span>Settings</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="logout-btn" class="btn btn-outline btn-block">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </aside>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <button id="sidebar-toggle" class="btn-icon" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="topbar-search">
+          <i class="fas fa-search"></i>
+          <input type="search" id="global-search" placeholder="Search crops, tasks...">
+        </div>
+        <div class="topbar-actions">
+          <button id="theme-toggle" class="btn-icon" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="notifications-btn" class="btn-icon notification-btn" aria-label="Notifications">
+            <i class="fas fa-bell"></i>
+            <span id="notification-badge" class="notification-badge hidden">0</span>
+          </button>
+          <button id="profile-btn" class="profile-btn" aria-label="Profile">
+            <div class="avatar" id="topbar-avatar">U</div>
+            <span id="topbar-username">User</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Notification Panel -->
+      <div id="notification-panel" class="notification-panel hidden">
+        <div class="notification-header">
+          <h3>Notifications</h3>
+          <button id="clear-notifications" class="btn-text">Clear All</button>
+        </div>
+        <div id="notification-list" class="notification-list"></div>
+      </div>
+
+      <!-- Page Sections -->
+      <div class="page-content">
+
+        <!-- Dashboard -->
+        <section id="section-dashboard" class="page-section active" data-bg="fields">
+          <div class="mobile-page-header">
+            <button class="btn-glass-round" id="dash-menu-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+            <h2>My Fields</h2>
+            <button class="btn-glass-round" aria-label="More"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+
+          <div class="map-controls-deco">
+            <button class="btn-glass-round btn-glass-sm"><i class="fas fa-plus"></i></button>
+            <button class="btn-glass-round btn-glass-sm"><i class="fas fa-minus"></i></button>
+            <button class="btn-glass-round btn-glass-sm"><i class="fas fa-expand"></i></button>
+            <button class="btn-glass-round btn-glass-sm"><i class="fas fa-crosshairs"></i></button>
+          </div>
+
+          <div class="field-inset-map glass-card glass-dark">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&h=300&fit=crop" alt="Field map">
+          </div>
+
+          <div class="stats-pills">
+            <div class="stat-pill glass-dark"><span id="stat-farms">0</span><small>Farms</small></div>
+            <div class="stat-pill glass-dark"><span id="stat-crops">0</span><small>Crops</small></div>
+            <div class="stat-pill glass-dark"><span id="stat-expenses">₹0</span><small>Expenses</small></div>
+            <div class="stat-pill glass-dark"><span id="stat-income">₹0</span><small>Income</small></div>
+            <div class="stat-pill glass-dark highlight"><span id="stat-profit">₹0</span><small>Profit</small></div>
+          </div>
+
+          <div class="dash-widgets-stack">
+            <div class="weather-glass-card glass-dark animate-in" style="--delay:0.1s">
+              <div id="dashboard-weather" class="weather-widget-body"></div>
+              <canvas id="temp-bar-chart" class="temp-bar-canvas"></canvas>
+            </div>
+
+            <div class="water-glass-card glass-dark animate-in" style="--delay:0.2s">
+              <div class="widget-header">
+                <div class="widget-title"><i class="fas fa-tint"></i> Water</div>
+                <span id="water-alert" class="alert-tag">Normal level</span>
+              </div>
+              <div class="water-level-display">
+                <span id="water-level-value" class="water-pct">—</span>
+              </div>
+              <canvas id="water-level-chart"></canvas>
+              <div class="water-actions">
+                <button class="pill-btn" id="dash-water-btn"><i class="fas fa-plus"></i> Watering</button>
+                <button class="pill-btn" id="dash-snooze-btn"><i class="fas fa-clock"></i> Snooze</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-block">
+            <div class="schedule-header">
+              <div class="date-display-large">
+                <i class="fas fa-calendar-alt"></i>
+                <div>
+                  <span id="dash-day" class="day-num">21</span>
+                  <span id="dashboard-date" class="month-year">August 2025</span>
+                </div>
+              </div>
+              <h3>Schedule For The Day</h3>
+            </div>
+
+            <div class="crop-distribution-card glass-dark animate-in" style="--delay:0.3s">
+              <div class="distribution-list" id="crop-distribution-list"></div>
+              <div class="gauge-wrap">
+                <canvas id="crop-distribution-gauge"></canvas>
+                <div class="gauge-center">
+                  <span class="gauge-label">Hectares</span>
+                  <span id="total-hectares" class="gauge-value">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="dashboard-crop-gallery" class="crop-gallery"></div>
+          </div>
+
+          <div class="dashboard-extras">
+            <div class="glass-card glass-dark chart-card animate-in" style="--delay:0.4s">
+              <h3><i class="fas fa-heartbeat"></i> Crop Health</h3>
+              <canvas id="crop-health-chart"></canvas>
+            </div>
+            <div class="glass-card glass-dark activities-card animate-in" style="--delay:0.5s">
+              <h3><i class="fas fa-history"></i> Recent Activities</h3>
+              <div id="recent-activities" class="activities-list"></div>
+            </div>
+            <div class="glass-card glass-dark chart-card animate-in" style="--delay:0.6s">
+              <h3><i class="fas fa-chart-bar"></i> Monthly Overview</h3>
+              <canvas id="dashboard-overview-chart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Crops -->
+        <section id="section-crops" class="page-section" data-bg="farmhouse">
+          <div class="page-header">
+            <div>
+              <h2>Crop Management</h2>
+              <p class="subtitle">Manage your crops and fields</p>
+            </div>
+            <button class="btn btn-primary" id="add-crop-btn">
+              <i class="fas fa-plus"></i> Add Crop
+            </button>
+          </div>
+          <div class="filter-bar">
+            <select id="crop-filter-status" class="form-select">
+              <option value="all">All Status</option>
+              <option value="Growing">Growing</option>
+              <option value="Harvested">Harvested</option>
+              <option value="Planned">Planned</option>
+            </select>
+            <input type="search" id="crop-search" class="form-input" placeholder="Search crops...">
+          </div>
+          <div id="crops-grid" class="cards-grid"></div>
+        </section>
+
+        <!-- Expenses -->
+        <section id="section-expenses" class="page-section">
+          <div class="page-header">
+            <div>
+              <h2>Expense Management</h2>
+              <p class="subtitle">Track and analyze farm expenses</p>
+            </div>
+            <button class="btn btn-primary" id="add-expense-btn">
+              <i class="fas fa-plus"></i> Add Expense
+            </button>
+          </div>
+          <div class="expense-layout">
+            <div class="glass-card">
+              <h3>Expense History</h3>
+              <div id="expense-list" class="data-list"></div>
+            </div>
+            <div class="expense-charts">
+              <div class="glass-card chart-card">
+                <h3>Monthly Expenses</h3>
+                <canvas id="expense-monthly-chart"></canvas>
+              </div>
+              <div class="glass-card chart-card">
+                <h3>By Category</h3>
+                <canvas id="expense-pie-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Income -->
+        <section id="section-income" class="page-section">
+          <div class="page-header">
+            <div>
+              <h2>Income Management</h2>
+              <p class="subtitle">Track sales and revenue</p>
+            </div>
+            <button class="btn btn-primary" id="add-income-btn">
+              <i class="fas fa-plus"></i> Add Income
+            </button>
+          </div>
+          <div class="income-stats">
+            <div class="stat-card glass-card">
+              <div class="stat-icon income"><i class="fas fa-dollar-sign"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Total Sales</span>
+                <span class="stat-value" id="income-total">₹0</span>
+              </div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-icon crops"><i class="fas fa-shopping-cart"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Transactions</span>
+                <span class="stat-value" id="income-count">0</span>
+              </div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-icon profit"><i class="fas fa-chart-line"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Avg. Sale</span>
+                <span class="stat-value" id="income-avg">₹0</span>
+              </div>
+            </div>
+          </div>
+          <div class="income-layout">
+            <div class="glass-card">
+              <h3>Sales History</h3>
+              <div id="income-list" class="data-list"></div>
+            </div>
+            <div class="glass-card chart-card">
+              <h3>Sales Statistics</h3>
+              <canvas id="income-chart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profit & Loss -->
+        <section id="section-profit" class="page-section">
+          <div class="page-header">
+            <div>
+              <h2>Profit & Loss Analysis</h2>
+              <p class="subtitle">Financial performance analytics</p>
+            </div>
+            <select id="profit-period" class="form-select">
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </div>
+          <div class="profit-summary">
+            <div class="stat-card glass-card">
+              <div class="stat-icon income"><i class="fas fa-arrow-up"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Total Income</span>
+                <span class="stat-value" id="pl-income">₹0</span>
+              </div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-icon expenses"><i class="fas fa-arrow-down"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Total Expenses</span>
+                <span class="stat-value" id="pl-expenses">₹0</span>
+              </div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-icon profit"><i class="fas fa-equals"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Net Profit</span>
+                <span class="stat-value" id="pl-profit">₹0</span>
+              </div>
+            </div>
+            <div class="stat-card glass-card">
+              <div class="stat-icon loss"><i class="fas fa-minus-circle"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Net Loss</span>
+                <span class="stat-value" id="pl-loss">₹0</span>
+              </div>
+            </div>
+          </div>
+          <div class="profit-charts">
+            <div class="glass-card chart-card">
+              <h3>Profit Trend</h3>
+              <canvas id="profit-trend-chart"></canvas>
+            </div>
+            <div class="glass-card chart-card">
+              <h3>Income vs Expenses</h3>
+              <canvas id="profit-comparison-chart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Inventory -->
+        <section id="section-inventory" class="page-section">
+          <div class="page-header">
+            <div>
+              <h2>Inventory Management</h2>
+              <p class="subtitle">Track seeds, fertilizers, and equipment</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-outline" id="scan-barcode-btn"><i class="fas fa-barcode"></i> Scan</button>
+              <button class="btn btn-primary" id="add-inventory-btn"><i class="fas fa-plus"></i> Add Item</button>
+            </div>
+          </div>
+          <div id="stock-alerts" class="alerts-bar"></div>
+          <div class="inventory-tabs">
+            <button class="tab-btn active" data-tab="seeds">Seeds</button>
+            <button class="tab-btn" data-tab="fertilizers">Fertilizers</button>
+            <button class="tab-btn" data-tab="pesticides">Pesticides</button>
+            <button class="tab-btn" data-tab="equipment">Equipment</button>
+          </div>
+          <div id="inventory-grid" class="cards-grid"></div>
+        </section>
+
+        <!-- Tasks -->
+        <section id="section-tasks" class="page-section" data-bg="farmhouse">
+          <div class="page-header">
+            <div>
+              <h2>Task Management</h2>
+              <p class="subtitle">Daily farming tasks and schedules</p>
+            </div>
+            <button class="btn btn-primary" id="add-task-btn">
+              <i class="fas fa-plus"></i> Add Task
+            </button>
+          </div>
+          <div class="task-filters">
+            <button class="tab-btn active" data-task-filter="all">All</button>
+            <button class="tab-btn" data-task-filter="pending">Pending</button>
+            <button class="tab-btn" data-task-filter="completed">Completed</button>
+          </div>
+          <div id="tasks-list" class="tasks-container"></div>
+        </section>
+
+        <!-- Weather -->
+        <section id="section-weather" class="page-section" data-bg="fields">
+          <div class="page-header">
+            <div>
+              <h2>Weather Module</h2>
+              <p class="subtitle" id="weather-location-label">Live weather for your farm location</p>
+            </div>
+            <button class="btn btn-outline" id="refresh-weather">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+          </div>
+          <div class="glass-card glass-dark weather-location-bar">
+            <form id="weather-city-form" class="weather-city-form">
+              <div class="form-group" style="margin:0;flex:1">
+                <label><i class="fas fa-map-marker-alt"></i> City / Location</label>
+                <input type="text" id="weather-city-input" class="form-input" placeholder="e.g. Mumbai, Pune, New Delhi">
+              </div>
+              <button type="submit" class="btn btn-primary">Update</button>
+              <button type="button" class="btn btn-outline" id="weather-use-location">
+                <i class="fas fa-crosshairs"></i> My Location
+              </button>
+            </form>
+          </div>
+          <div id="weather-alerts-bar" class="alerts-bar"></div>
+          <div class="weather-advanced-grid">
+            <div class="glass-card glass-dark chart-card">
+              <h3><i class="fas fa-chart-area"></i> 30-Day Weather History</h3>
+              <canvas id="weather-history-chart"></canvas>
+            </div>
+            <div class="glass-card glass-dark" id="iot-panel">
+              <h3><i class="fas fa-wifi"></i> IoT Sensor Integration</h3>
+              <form id="iot-config-form" class="iot-form">
+                <div class="form-group">
+                  <label>Sensor API URL (Arduino / ESP32)</label>
+                  <input type="url" id="iot-api-url" class="form-input" placeholder="http://192.168.1.100/sensors">
+                </div>
+                <div class="form-row">
+                  <button type="submit" class="btn btn-primary">Save & Connect</button>
+                  <button type="button" class="btn btn-outline" id="iot-poll-btn"><i class="fas fa-sync"></i> Poll Now</button>
+                </div>
+              </form>
+              <div id="iot-readings" class="iot-readings"></div>
+            </div>
+          </div>
+          <div id="weather-detail" class="weather-detail"></div>
+        </section>
+
+        <!-- Farm Intelligence -->
+        <section id="section-intelligence" class="page-section" data-bg="farmhouse">
+          <div class="page-header">
+            <div>
+              <h2>Farm Intelligence</h2>
+              <p class="subtitle">Pest control, soil, yield & crop planning</p>
+            </div>
+          </div>
+          <div class="feature-tabs" id="intel-tabs">
+            <button class="tab-btn active" data-intel="pest">Pest & Disease</button>
+            <button class="tab-btn" data-intel="fertilizer">Fertilizer</button>
+            <button class="tab-btn" data-intel="yield">Yield Predict</button>
+            <button class="tab-btn" data-intel="rotation">Rotation</button>
+            <button class="tab-btn" data-intel="soil">Soil Tests</button>
+            <button class="tab-btn" data-intel="irrigation">Irrigation</button>
+          </div>
+          <div id="intel-content" class="intel-content"></div>
+        </section>
+
+        <!-- Livestock -->
+        <section id="section-livestock" class="page-section" data-bg="default">
+          <div class="page-header">
+            <div>
+              <h2>Livestock & Mixed Farming</h2>
+              <p class="subtitle">Animals, milk, feed, health & breeding</p>
+            </div>
+            <button class="btn btn-primary" id="livestock-add-btn"><i class="fas fa-plus"></i> Add Animal</button>
+          </div>
+          <div class="feature-tabs" id="livestock-tabs">
+            <button class="tab-btn active" data-livestock="animals">Animals</button>
+            <button class="tab-btn" data-livestock="milk">Milk Production</button>
+            <button class="tab-btn" data-livestock="feed">Feed Inventory</button>
+            <button class="tab-btn" data-livestock="vaccination">Vaccinations</button>
+            <button class="tab-btn" data-livestock="breeding">Breeding</button>
+          </div>
+          <div id="livestock-content" class="livestock-content"></div>
+        </section>
+
+        <!-- Analytics -->
+        <section id="section-analytics" class="page-section" data-bg="fields">
+          <div class="page-header">
+            <div>
+              <h2>Advanced Analytics</h2>
+              <p class="subtitle">Performance metrics & exports</p>
+            </div>
+          </div>
+          <div id="analytics-content" class="analytics-content"></div>
+        </section>
+
+        <!-- Reports -->
+        <section id="section-reports" class="page-section">
+          <div class="page-header">
+            <div>
+              <h2>Reports</h2>
+              <p class="subtitle">Generate and export farm reports</p>
+            </div>
+          </div>
+          <div class="reports-grid">
+            <div class="glass-card report-card" data-report="crops">
+              <i class="fas fa-leaf"></i>
+              <h3>Crop Report</h3>
+              <p>Summary of all crops and harvest status</p>
+              <div class="report-actions">
+                <button class="btn btn-outline btn-sm print-report" data-report="crops"><i class="fas fa-print"></i> Print</button>
+                <button class="btn btn-outline btn-sm export-csv" data-report="crops"><i class="fas fa-file-csv"></i> CSV</button>
+                <button class="btn btn-primary btn-sm export-pdf" data-report="crops"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn btn-outline btn-sm share-report" data-report="crops"><i class="fas fa-share-alt"></i></button>
+              </div>
+            </div>
+            <div class="glass-card report-card" data-report="expenses">
+              <i class="fas fa-wallet"></i>
+              <h3>Expense Report</h3>
+              <p>Detailed expense breakdown by category</p>
+              <div class="report-actions">
+                <button class="btn btn-outline btn-sm print-report" data-report="expenses"><i class="fas fa-print"></i> Print</button>
+                <button class="btn btn-outline btn-sm export-csv" data-report="expenses"><i class="fas fa-file-csv"></i> CSV</button>
+                <button class="btn btn-primary btn-sm export-pdf" data-report="expenses"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn btn-outline btn-sm share-report" data-report="expenses"><i class="fas fa-share-alt"></i></button>
+              </div>
+            </div>
+            <div class="glass-card report-card" data-report="income">
+              <i class="fas fa-coins"></i>
+              <h3>Income Report</h3>
+              <p>Sales history and revenue analysis</p>
+              <div class="report-actions">
+                <button class="btn btn-outline btn-sm print-report" data-report="income"><i class="fas fa-print"></i> Print</button>
+                <button class="btn btn-outline btn-sm export-csv" data-report="income"><i class="fas fa-file-csv"></i> CSV</button>
+                <button class="btn btn-primary btn-sm export-pdf" data-report="income"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn btn-outline btn-sm share-report" data-report="income"><i class="fas fa-share-alt"></i></button>
+              </div>
+            </div>
+            <div class="glass-card report-card" data-report="profit">
+              <i class="fas fa-chart-line"></i>
+              <h3>Profit Report</h3>
+              <p>Complete profit and loss statement</p>
+              <div class="report-actions">
+                <button class="btn btn-outline btn-sm print-report" data-report="profit"><i class="fas fa-print"></i> Print</button>
+                <button class="btn btn-outline btn-sm export-csv" data-report="profit"><i class="fas fa-file-csv"></i> CSV</button>
+                <button class="btn btn-primary btn-sm export-pdf" data-report="profit"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button class="btn btn-outline btn-sm share-report" data-report="profit"><i class="fas fa-share-alt"></i></button>
+              </div>
+            </div>
+          </div>
+          <div id="report-preview" class="glass-card report-preview hidden">
+            <div class="report-preview-header">
+              <h3 id="report-preview-title">Report Preview</h3>
+              <button id="close-report-preview" class="btn-icon"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="report-preview-content" class="report-preview-content"></div>
+          </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="section-settings" class="page-section">
+          <div class="page-header">
+            <div>
+              <h2>Settings</h2>
+              <p class="subtitle">Customize your experience</p>
+            </div>
+          </div>
+          <div class="settings-grid">
+            <div class="glass-card settings-card">
+              <h3><i class="fas fa-user"></i> Profile Settings</h3>
+              <form id="profile-settings-form">
+                <div class="form-group">
+                  <label>Full Name</label>
+                  <input type="text" id="settings-name" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" id="settings-email" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input type="tel" id="settings-phone" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label>Farm Name</label>
+                  <input type="text" id="settings-farm" class="form-input" placeholder="My Farm">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Profile</button>
+              </form>
+            </div>
+            <div class="glass-card settings-card glass-dark">
+              <h3><i class="fas fa-map-marker-alt"></i> Farm Location (Weather)</h3>
+              <form id="location-settings-form">
+                <div class="form-group">
+                  <label>City Name</label>
+                  <input type="text" id="settings-city" class="form-input" placeholder="e.g. Bengaluru, India">
+                </div>
+                <p id="settings-location-display" class="text-muted location-display">No location set</p>
+                <div class="location-actions">
+                  <button type="submit" class="btn btn-primary">Save City</button>
+                  <button type="button" class="btn btn-outline" id="settings-use-gps">
+                    <i class="fas fa-crosshairs"></i> Use GPS
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="glass-card settings-card glass-dark">
+              <h3><i class="fas fa-palette"></i> Theme Settings</h3>
+              <div class="setting-item">
+                <span>Auto Dark Mode (6 PM – 6 AM)</span>
+                <label class="toggle">
+                  <input type="checkbox" id="settings-auto-theme">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <span>Dark Mode</span>
+                <label class="toggle">
+                  <input type="checkbox" id="settings-dark-mode">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <span>Accent Color</span>
+                <div class="color-options">
+                  <button class="color-btn active" data-color="green" style="background:#2d6a4f"></button>
+                  <button class="color-btn" data-color="emerald" style="background:#059669"></button>
+                  <button class="color-btn" data-color="teal" style="background:#0d9488"></button>
+                </div>
+              </div>
+            </div>
+            <div class="glass-card settings-card">
+              <h3><i class="fas fa-bell"></i> Notification Settings</h3>
+              <div class="setting-item">
+                <span>Task Reminders</span>
+                <label class="toggle">
+                  <input type="checkbox" id="settings-task-notif" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <span>Stock Alerts</span>
+                <label class="toggle">
+                  <input type="checkbox" id="settings-stock-notif" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+              <div class="setting-item">
+                <span>Weather Updates</span>
+                <label class="toggle">
+                  <input type="checkbox" id="settings-weather-notif" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="glass-card settings-card">
+              <h3><i class="fas fa-globe"></i> Language</h3>
+              <div class="form-group">
+                <select id="settings-language" class="form-select">
+                  <option value="en">English</option>
+                  <option value="es">Español</option>
+                  <option value="fr">Français</option>
+                  <option value="hi">हिन्दी</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profile -->
+        <section id="section-profile" class="page-section">
+          <div class="page-header">
+            <div>
+              <h2>My Profile</h2>
+              <p class="subtitle">Your account information</p>
+            </div>
+          </div>
+          <div class="profile-layout">
+            <div class="glass-card profile-card">
+              <div class="profile-avatar-large" id="profile-avatar">U</div>
+              <h3 id="profile-name">User Name</h3>
+              <p id="profile-email" class="text-muted">user@email.com</p>
+              <div class="profile-stats">
+                <div class="profile-stat">
+                  <span class="stat-value" id="profile-crops-count">0</span>
+                  <span class="stat-label">Crops</span>
+                </div>
+                <div class="profile-stat">
+                  <span class="stat-value" id="profile-tasks-count">0</span>
+                  <span class="stat-label">Tasks</span>
+                </div>
+                <div class="profile-stat">
+                  <span class="stat-value" id="profile-farm-name">-</span>
+                  <span class="stat-label">Farm</span>
+                </div>
+              </div>
+            </div>
+            <div class="glass-card">
+              <h3>Account Details</h3>
+              <div class="detail-list">
+                <div class="detail-item">
+                  <span class="detail-label">Member Since</span>
+                  <span id="profile-joined">-</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Phone</span>
+                  <span id="profile-phone">-</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Farm Name</span>
+                  <span id="profile-farm">-</span>
+                </div>
+              </div>
+              <button class="btn btn-outline" id="edit-profile-btn">
+                <i class="fas fa-edit"></i> Edit Profile
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
+      <a href="#" class="bottom-nav-item active" data-section="dashboard"><i class="fas fa-map"></i><span>Fields</span></a>
+      <a href="#" class="bottom-nav-item" data-section="crops"><i class="fas fa-leaf"></i><span>Crops</span></a>
+      <a href="#" class="bottom-nav-item" data-section="tasks"><i class="fas fa-calendar-day"></i><span>Schedule</span></a>
+      <a href="#" class="bottom-nav-item" data-section="weather"><i class="fas fa-cloud-sun"></i><span>Weather</span></a>
+      <a href="#" class="bottom-nav-item" data-section="settings"><i class="fas fa-cog"></i><span>More</span></a>
+    </nav>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div id="modal" class="modal glass-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal</h3>
+        <button id="modal-close" class="btn-icon" aria-label="Close"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Print Area (hidden) -->
+  <div id="print-area" class="print-area"></div>
+
+  <!-- Quick Add FAB -->
+  <div id="fab-container" class="fab-container hidden">
+    <div id="fab-menu" class="fab-menu hidden">
+      <button class="fab-option" data-fab="expense"><i class="fas fa-wallet"></i> Expense</button>
+      <button class="fab-option" data-fab="income"><i class="fas fa-coins"></i> Income</button>
+      <button class="fab-option" data-fab="task"><i class="fas fa-tasks"></i> Task</button>
+      <button class="fab-option" data-fab="crop"><i class="fas fa-seedling"></i> Crop</button>
+      <button class="fab-option" data-fab="voice"><i class="fas fa-microphone"></i> Voice</button>
+    </div>
+    <button id="fab-main" class="fab-main" aria-label="Quick add"><i class="fas fa-plus"></i></button>
+  </div>
+
+  <!-- Onboarding Tour -->
+  <div id="onboarding-overlay" class="onboarding-overlay hidden">
+    <div class="onboarding-card glass-card glass-dark">
+      <div class="onboarding-progress"><div id="onboarding-progress-bar"></div></div>
+      <h3 id="onboarding-title">Welcome</h3>
+      <p id="onboarding-text"></p>
+      <div class="onboarding-actions">
+        <button class="btn btn-outline" id="onboarding-skip">Skip</button>
+        <button class="btn btn-primary" id="onboarding-next">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barcode Scanner Modal -->
+  <div id="scanner-overlay" class="modal-overlay hidden">
+    <div class="modal glass-card scanner-modal">
+      <div class="modal-header">
+        <h3>Scan Barcode / QR</h3>
+        <button id="scanner-close" class="btn-icon"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="scanner-reader" class="scanner-reader"></div>
+      <p class="text-muted scanner-hint">Point camera at inventory barcode</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script src="script.js"></script>
+  <script src="features.js"></script>
+</body>
+</html>
